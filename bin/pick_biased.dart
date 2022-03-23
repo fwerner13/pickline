@@ -9,6 +9,7 @@ Random random = new Random();
 late bool verbose;
 
 void main(List<String> args) {
+  // parse options
   if (args.isEmpty) {
     print('Please specify a file.');
     exit(0);
@@ -31,11 +32,10 @@ void main(List<String> args) {
     bool isOptionStringPresent = isJsonParseable(lines[0]);
     Map options = parseOptions(firstLine, defaultOptions());
     if (isOptionStringPresent) lines.removeAt(0);
-
-    // @todo: only show this when using verbose flag
     output("Options used: " + json.encode(options));
 
-    String randomLine = getRandomLine(lines, 2.5);
+    // fetch the random line
+    String randomLine = getRandomLine(lines, options['probabilityPower'].toDouble());
     stdout.writeln(randomLine);
   } catch (e) {
     stderr.writeln(e);
